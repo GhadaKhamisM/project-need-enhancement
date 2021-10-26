@@ -4,10 +4,10 @@ namespace App\Http\Controllers\API\Auth;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Http\Requests\SignUpRequest;
+use App\Http\Requests\LoginRequest;
 use App\Services\UserService;
 
-class SignupController extends Controller
+class LoginController extends Controller
 {
     private $userService;
 
@@ -16,8 +16,8 @@ class SignupController extends Controller
         $this->userService = $userService;
     }
 
-    public function __invoke(SignUpRequest $request)
+    public function __invoke(LoginRequest $request)
     {        
-        return $this->userService->create($request->validated());
+        return $this->userService->login($request->validated());
     }
 }
