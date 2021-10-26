@@ -16,27 +16,6 @@ use Illuminate\Http\Response;
 
 class UserController extends Controller
 { 
-    public function login(Request $request)
-    {
-        $request->validate([
-            'email' => 'required|email',
-            'password' => 'required',
-        ]);
-
-        $user = User::where('email', $request->email)->first();
-
-        if (! $user || ! Hash::check($request->password, $user->password)) {
-            throw ValidationException::withMessages([
-                'message' => __('lang.invalid_credientials'),
-            ]);
-        }
-
-        return response()->json([
-            'auth_token' =>  $user->createToken('auth-token')->plainTextToken
-        ]);
-    }
-
-    
     public function follow(Request $request)
     {
         $request->validate([

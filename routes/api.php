@@ -4,8 +4,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\API\TweetController;
 use App\Http\Controllers\API\UserController;
+use App\Http\Controllers\API\Auth\LoginController;
 use App\Http\Controllers\API\Auth\SignupController;
-
+use App\Http\Resources\UserResource;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -17,16 +18,16 @@ use App\Http\Controllers\API\Auth\SignupController;
 |
 */
 
-Route::post('/signup', [SignupController::class, 'signup']);
-Route::post('/login', [UserController::class, 'login']);
+Route::post('signup', SignupController::class);
+Route::post('login', LoginController::class);
 
 Route::middleware(['auth:sanctum'])->group(function () {
-    Route::post('/tweets', [TweetController::class, 'store']);
-    Route::get('/timeline', [TweetController::class, 'timeline']);
-    Route::post('/users/follow', [UserController::class, 'follow']);
+    Route::post('tweets', [TweetController::class, 'store']);
+    Route::get('timeline', [TweetController::class, 'timeline']);
+    Route::post('users/follow', [UserController::class, 'follow']);
 
-    Route::get('/user', function (Request $request) {
-        return $request->user();
+    Route::get('users/me', function (Request $request) {
+        return new UserResource($request->user());
     });
 });
 
